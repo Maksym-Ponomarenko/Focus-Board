@@ -1,16 +1,26 @@
-import React, {FC} from 'react';
-import {Task} from "@/types";
+"use client";
+
+import React, { FC } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { Task, TaskId } from "@/types";
 
 export interface ITaskInfoProps {
-    task: Task;
+    taskId: TaskId;
 }
 
-const TaskInfo:FC<ITaskInfoProps> = ({task}) => {
+const TaskPage: FC<ITaskInfoProps> = ({ taskId }) => {
+    const tasks = useSelector((state: RootState) => state.tasks.tasks);
+    const task = tasks?.find((t: Task) => t.id === taskId);
+    if (!task) {
+        return <div>Задача не найдена</div>;
+    }
     return (
         <div>
-
+            <h1>{task.title}</h1>
+            <p>{task.description}</p>
         </div>
     );
 };
 
-export default TaskInfo;
+export default TaskPage;

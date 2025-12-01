@@ -1,0 +1,44 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+
+  &__label {
+    font-size: 1.2rem;
+    font-family: "Inter Semi Bold", sans-serif;
+    color: #4b5563;
+  }
+
+  &__field {
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.15s border-color, 0.15s box-shadow;
+
+    &:hover {
+      border-color: #9ca3af;
+    }
+
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    &--error {
+      border-color: #e53935;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2);
+      }
+    }
+  }
+
+  &__error {
+    font-size: 1rem;
+    font-family: "Inter Semi Bold", sans-serif;
+    color: #e53935;
+  }
+}
