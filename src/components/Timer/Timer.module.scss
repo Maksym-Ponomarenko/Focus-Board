@@ -1,0 +1,31 @@
+.timer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg {
+  transform: rotate(-90deg);
+}
+
+.background {
+  fill: transparent;
+  stroke: #e5e7eb;
+}
+
+.progress {
+  fill: transparent;
+  stroke: #6366f1;
+  stroke-linecap: round;
+  transition: stroke 0.3s ease;
+}
+
+.time {
+  position: absolute;
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: "Inter Semi Bold", sans-serif;
+  color: #111827;
+  user-select: none;
+}
