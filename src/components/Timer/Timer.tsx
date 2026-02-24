@@ -58,8 +58,8 @@ export default function Timer({
     }
 
     return (
-        <div className={styles.timer}>
-            <svg width={size} height={size} className={styles.svg}>
+        <div className={styles.timer} style={{zIndex: -1}}>
+            <svg width={size} height={size} className={styles.svg} style={{zIndex: -1}} >
                 <circle
                     className={styles.background}
                     strokeWidth={strokeWidth}
@@ -76,6 +76,7 @@ export default function Timer({
                     r={radius}
                     cx={size / 2}
                     cy={size / 2}
+                    style={{zIndex: -1}}
                 />
             </svg>
 
