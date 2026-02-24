@@ -4,19 +4,20 @@ import React, {useCallback, useState} from 'react';
 import styles from './TaskForm.module.scss'
 import {useSetTasks} from "@/hooks/useSetTasks";
 
-export type statusType = 'created' | 'inProgress' | 'completed'
+export type statusType = "null" | 'created' | 'inProgress' | 'completed'
 
 
 export interface ITask {
     id: string;
     name: string;
-    focuses?: number;
+    focuses: number | '';
+    leftFocuses?: number;
     status?: statusType;
     date?: string; //ISO
 }
 
 const TaskForm = () => {
-    const [task, setTask] = useState<ITask>({name: '', id: ''});
+    const [task, setTask] = useState<ITask>({name: '', id: '', focuses: ''});
     const {addTask} = useSetTasks()
 
 
@@ -26,9 +27,26 @@ const TaskForm = () => {
                 className={styles.input}
                 placeholder="Task Title"
                 value={task.name}
-                onChange={(e) => setTask({name: e.target.value, id: task.id})}
+                onChange={(e) => setTask({...task, name: e.target.value})}
             />
-            <button className={styles.button} onClick={()=>addTask(task.name,0)}>
+            <input
+                className={styles.input}
+                style={{width:'20%'}}
+                type="text"
+                inputMode="numeric"
+                placeholder="Focuses"
+                value={task.focuses}
+                onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '')
+                    if (value === '') {
+                        setTask({...task, focuses: ''})
+                        return
+                    }
+                    const num = Math.min(10, Math.max(0, Number(value)))
+                    setTask({...task, focuses: num})
+                }}
+            />
+            <button className={styles.button} onClick={() => addTask(task.name, 0)}>
                 Add
             </button>
 

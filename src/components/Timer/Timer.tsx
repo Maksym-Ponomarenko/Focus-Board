@@ -11,7 +11,7 @@ interface ITimerProps {
 
 export default function Timer({
                                   duration,
-                                  size = 350,
+                                  size = 600,
                                   strokeWidth = 16,
                               }: ITimerProps) {
     const radius = (size - strokeWidth) / 2

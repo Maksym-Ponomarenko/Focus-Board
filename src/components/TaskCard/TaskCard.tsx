@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { FC } from "react";
+import { ITask } from "@/components/TaskForm/TaskForm";
+import styles from "./TaskCard.module.scss";
 
-const TaskCard = () => {
+interface TaskCardProps {
+    task: ITask;
+}
+
+const TaskCard: FC<TaskCardProps> = ({ task }) => {
     return (
-        <div>
-            <div>Name</div>
-
+        <div className={styles.card__container}>
+            <div className={styles.title}>{task.name}</div>
+            <div>{task.focuses}</div>
         </div>
     );
 };

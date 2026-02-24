@@ -13,9 +13,10 @@ const Header = () => {
     return (
         <div className={styles.header__container}>
             <div className={styles.header__title}>FocusBoard</div>
+
             <div className={styles.icons}>
-                <div className={styles.icon__container}>
-                    <img src={menuIcon.src}/>
+                <div className={styles.stats_title} >
+                    Statistics
                 </div>
                 <div className={styles.icon__container} onClick={() => {setActive(true)}}>
                     <img src={settingsIcon.src}/>
