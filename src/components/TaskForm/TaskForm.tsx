@@ -46,7 +46,7 @@ const TaskForm = () => {
                     setTask({...task, focuses: num})
                 }}
             />
-            <button className={styles.button} onClick={() => addTask(task.name, 0)}>
+            <button className={styles.button} onClick={() => addTask(task.name, Number(task.focuses))}>
                 Add
             </button>
 

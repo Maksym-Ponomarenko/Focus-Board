@@ -16,7 +16,7 @@ export function useSetTasks() {
         });
     }, [])
     const addTask = useCallback((name:string, focuses: number) => {
-        if (focuses > 0) return
+        if (focuses < 0) return
         if (name === "") return
         setTasks((prev) => [
             ...prev,{

@@ -17,7 +17,7 @@ const TaskList: FC<ITaskListProps> = ({limit}) => {
     return (
         <div>
             {sliced.map((task: ITask) => (
-                <TaskCard task={task} key={task.id}/>
+                <TaskCard task={task} key={task.id} />
             ))}
         </div>
     );
