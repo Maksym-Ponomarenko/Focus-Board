@@ -1,31 +1,48 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import {useEffect, useRef, useState} from "react"
 import styles from "./Timer.module.scss"
 
 interface ITimerProps {
     duration: number
-    size?: number
     strokeWidth?: number
 }
 
-export default function Timer({
-                                  duration,
-                                  size = 600,
-                                  strokeWidth = 16,
-                              }: ITimerProps) {
-    const radius = (size - strokeWidth) / 2
+export default function Timer({duration, strokeWidth = 16}: ITimerProps) {
+    const [size, setSize] = useState<number>(0)
+    const [radius, setRadius] = useState<number>(0)
+
     const circumference = 2 * Math.PI * radius
+
     const [timeLeft, setTimeLeft] = useState(duration)
     const [progress, setProgress] = useState(0)
+
     const startTimeRef = useRef<number | null>(null)
     const animationRef = useRef<number | null>(null)
 
+    const [width, setWidth] = useState(0)
+
     useEffect(() => {
+        const handleResize = () => {
+            const w = window.innerWidth
+            setWidth(w)
+
+            const newSize = w > 750 ? 650 : Math.max(w - 50, 200)
+            setSize(newSize)
+            setRadius((newSize - strokeWidth) / 2)
+        }
+
+        handleResize() // важно: выставить сразу при маунте
+        window.addEventListener("resize", handleResize)
+
+        return () => window.removeEventListener("resize", handleResize)
+    }, [strokeWidth])
+
+    useEffect(() => {
+        startTimeRef.current = null
+
         const animate = (timestamp: number) => {
-            if (!startTimeRef.current) {
-                startTimeRef.current = timestamp
-            }
+            if (!startTimeRef.current) startTimeRef.current = timestamp
 
             const elapsed = (timestamp - startTimeRef.current) / 1000
             const remaining = Math.max(duration - elapsed, 0)
@@ -43,9 +60,7 @@ export default function Timer({
         animationRef.current = requestAnimationFrame(animate)
 
         return () => {
-            if (animationRef.current) {
-                cancelAnimationFrame(animationRef.current)
-            }
+            if (animationRef.current) cancelAnimationFrame(animationRef.current)
         }
     }, [duration])
 
@@ -59,7 +74,7 @@ export default function Timer({
 
     return (
         <div className={styles.timer} style={{zIndex: -1}}>
-            <svg width={size} height={size} className={styles.svg} style={{zIndex: -1}} >
+            <svg width={size} height={size} className={styles.svg} style={{zIndex: -1}}>
                 <circle
                     className={styles.background}
                     strokeWidth={strokeWidth}
@@ -67,7 +82,6 @@ export default function Timer({
                     cx={size / 2}
                     cy={size / 2}
                 />
-
                 <circle
                     className={styles.progress}
                     strokeWidth={strokeWidth}
@@ -76,7 +90,6 @@ export default function Timer({
                     r={radius}
                     cx={size / 2}
                     cy={size / 2}
-                    style={{zIndex: -1}}
                 />
             </svg>
 

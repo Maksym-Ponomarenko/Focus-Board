@@ -3,11 +3,17 @@
   border-radius: 5px;
   margin-top: 5px;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
 
 }
 .title{
   font-size: 22px;
   font-weight: 600;
+  font-family: Calibri, sans-serif;
+}
+.text{
+  font-size: 18px;
   font-family: Calibri, sans-serif;
 
 }
