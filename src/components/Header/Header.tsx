@@ -2,29 +2,28 @@
 
 import React from 'react';
 import styles from './Header.module.scss'
-import menuIcon from '@/assets/icons/menu-icon.png'
 import settingsIcon from '@/assets/icons/settings-icon.png'
 import Modal from "@/components/Modal/Modal";
+import {useRouter} from "next/navigation";
 
 const Header = () => {
-
-    const [active, setActive] = React.useState(false);
+     //
+     // const [active, setActive] = React.useState(false);
+    const router = useRouter();
 
     return (
         <div className={styles.header__container}>
-            <div className={styles.header__title}>FocusBoard</div>
+            <div className={styles.header__title} onClick={()=>router.push('/' )} >FocusBoard</div>
 
             <div className={styles.icons}>
-                <div className={styles.stats_title} >
-                    Statistics
+                <div className={styles.stats_title} onClick={()=>router.push('/stats' )} >
+                    Stats
                 </div>
-                <div className={styles.icon__container} onClick={() => {setActive(true)}}>
+                <div className={styles.icon__container} onClick={()=>router.push('/settings' )}>
                     <img src={settingsIcon.src}/>
                 </div>
             </div>
-            <Modal modalActive={active} setModalActive={setActive}>
-                111
-            </Modal>
+
         </div>
     );
 };

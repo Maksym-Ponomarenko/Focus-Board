@@ -1,19 +1,62 @@
 .card__container {
-  border: #544ae2 solid 2px;
-  border-radius: 5px;
-  margin-top: 5px;
-  padding: 5px;
+  position: relative;
+  margin-top: 8px;
+  padding: 14px;
+
+  border-radius: 16px;
+  border: 2px solid #7fdcff;
+
+  background: linear-gradient(135deg, #f4fdff, #dff8ff, #e9faff);
+
+  box-shadow: 0 12px 30px rgba(0, 174, 255, 0.25), inset 0 2px 8px rgba(255, 255, 255, 0.9), inset 0 -6px 14px rgba(0, 150, 255, 0.15);
+
   display: flex;
   flex-direction: column;
+  gap: 6px;
 
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
-.title{
+
+.card__container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.6), transparent 70%);
+
+  transform: rotate(25deg);
+  animation: shimmer 6s linear infinite;
+  pointer-events: none;
+}
+
+.card__container:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 174, 255, 0.4), 0 0 30px rgba(0, 200, 255, 0.5), inset 0 3px 10px rgba(255, 255, 255, 1);
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(25deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(25deg);
+  }
+}
+
+.title {
   font-size: 22px;
   font-weight: 600;
   font-family: Calibri, sans-serif;
+  color: #00334d;
+  text-shadow: 0 2px 6px rgba(0, 150, 255, 0.25);
 }
-.text{
+
+.text {
   font-size: 18px;
   font-family: Calibri, sans-serif;
-
+  color: rgba(0, 60, 90, 0.85);
 }
