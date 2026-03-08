@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
 import React, {FC} from "react";
-import {useSetTasks} from "@/hooks/useSetTasks";
 import TaskCard from "@/components/TaskCard/TaskCard";
+import {useAppSelector} from "@/store";
 import {ITask} from "@/components/TaskForm/TaskForm";
 
 interface ITaskListProps {
@@ -10,14 +10,15 @@ interface ITaskListProps {
 }
 
 const TaskList: FC<ITaskListProps> = ({limit}) => {
-    const {tasks} = useSetTasks();
+    const listType = useAppSelector((state)=>state.listType)
+    const tasks = useAppSelector((state) => state[listType]);
 
     const sliced = limit ? tasks.slice(0, limit) : tasks;
 
     return (
         <div>
             {sliced.map((task: ITask) => (
-                <TaskCard task={task} key={task.id} />
+                <TaskCard task={task} key={task.id}/>
             ))}
         </div>
     );

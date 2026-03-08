@@ -1,8 +1,12 @@
 'use client'
 
-import React, {useCallback, useState} from 'react';
+import React, { useState} from 'react';
 import styles from './TaskForm.module.scss'
-import {useSetTasks} from "@/hooks/useSetTasks";
+import {useAppDispatch} from "@/store";
+import {tasksActions} from "@/store/taskSlice";
+import {TasksToggle} from "@/components/TaskToggle/TaskToggle";
+
+
 
 export type statusType = "null" | 'created' | 'inProgress' | 'completed'
 
@@ -17,12 +21,26 @@ export interface ITask {
 }
 
 const TaskForm = () => {
-    const [task, setTask] = useState<ITask>({name: '', id: '', focuses: ''});
-    const {addTask} = useSetTasks()
+    const [task, setTask] = useState<ITask>({name: '', id: '', focuses: '', leftFocuses: 0, status: 'null', date: ''});
+    const dispatch = useAppDispatch();
+
+
+    const add = () =>{
+        dispatch(tasksActions.addTask({
+            id: String(new Date()),
+            date: new Date().toISOString(),
+            status: "created",
+            name:task.name,
+            focuses:task.focuses,
+            leftFocuses: task.leftFocuses,
+        }));
+        setTask({name: '', id: '', focuses: '', leftFocuses: 0, status: 'null', date: ''});
+    }
 
 
     return (
         <div className={styles.container}>
+            <TasksToggle/>
             <input
                 className={styles.input}
                 placeholder="Task Title"
@@ -46,7 +64,7 @@ const TaskForm = () => {
                     setTask({...task, focuses: num})
                 }}
             />
-            <button className={styles.button} onClick={() => addTask(task.name, Number(task.focuses))}>
+            <button className={styles.button} onClick={() => add()}>
                 Add
             </button>
 
