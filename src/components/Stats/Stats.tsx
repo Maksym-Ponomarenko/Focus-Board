@@ -15,8 +15,6 @@ import {
 import {Line} from "react-chartjs-2";
 import {useAppSelector} from "@/store";
 
-
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -27,9 +25,7 @@ ChartJS.register(
     Legend
 )
 const StatsData=()=>{
-
     const stats = useAppSelector((state) => state.stats);
-
 
     return (
         <div className={styles.stats__container}>
@@ -44,8 +40,6 @@ const StatsData=()=>{
 const FocusStats = () => {
 
     const stats = useAppSelector((state) => state.stats);
-
-
     const data = {
         labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
         datasets: [
@@ -70,7 +64,6 @@ const FocusStats = () => {
 const TaskStats = () => {
 
     const stats = useAppSelector((state) => state.stats);
-
     const data = {
         labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
         datasets: [
@@ -91,7 +84,5 @@ const TaskStats = () => {
         </div>
     );
 }
-
-
 
 export {FocusStats, TaskStats, StatsData};

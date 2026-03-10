@@ -1,6 +1,6 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import taskReducer from  "./taskSlice"
-import statsReducer from  "./statsSlice"
+import taskReducer from "./taskSlice"
+import statsReducer from "./statsSlice"
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 export type RootState = ReturnType<typeof store.getState>;

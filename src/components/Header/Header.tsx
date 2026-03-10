@@ -5,20 +5,16 @@ import styles from './Header.module.scss'
 import {useRouter} from "next/navigation";
 
 const Header = () => {
-     //
-     // const [active, setActive] = React.useState(false);
     const router = useRouter();
 
     return (
         <div className={styles.header__container}>
             <div className={styles.header__title} onClick={()=>router.push('/' )} >FocusBoard</div>
-
             <div className={styles.icons}>
                 <div className={styles.stats_title} onClick={()=>router.push('/stats' )} >
                     Stats
                 </div>
             </div>
-
         </div>
     );
 };

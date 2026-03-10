@@ -9,7 +9,7 @@ import {statsActions} from "@/store/statsSlice";
 type Mode = "focus" | "break";
 type Status = "idle" | "running" | "paused";
 
-const FOCUS_DURATION = 5;
+const FOCUS_DURATION = 25 * 60;
 const BREAK_DURATION = 5 * 60;
 
 const formatTime = (time: number) => {
@@ -31,6 +31,33 @@ export const Timer = () => {
 
     const duration = mode === "focus" ? FOCUS_DURATION : BREAK_DURATION;
 
+    const finishCycle = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
+
+        if (mode === "focus") {
+            if (focusedTask) {
+                dispatch(tasksActions.focusDecrement(focusedTask));
+            }
+
+            dispatch(statsActions.addFocus(new Date().toISOString()));
+
+            setMode("break");
+            setTimeLeft(BREAK_DURATION);
+        } else {
+            setMode("focus");
+            setTimeLeft(FOCUS_DURATION);
+        }
+
+        setStatus("idle");
+    };
+
+    const skip = () => {
+        finishCycle();
+    };
+
     useEffect(() => {
         if (status !== "running") return;
 
@@ -45,27 +72,21 @@ export const Timer = () => {
         }, 1000);
 
         return () => {
-            if (intervalRef.current) clearInterval(intervalRef.current);
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
         };
     }, [status]);
 
     useEffect(() => {
         if (timeLeft !== 0 || status !== "running") return;
 
-        if (intervalRef.current) clearInterval(intervalRef.current);
-
-        if (mode === "focus") {
-            dispatch(tasksActions.focusDecrement(focusedTask));
-            dispatch(statsActions.addFocus(new Date().toString()));
-            ()=>setMode("break");
-            ()=>setTimeLeft(BREAK_DURATION);
-        } else {
-            ()=>setMode("focus");
-            ()=>setTimeLeft(FOCUS_DURATION);
-        }
-    }, [timeLeft, status, mode, dispatch, focusedTask]);
+        () => finishCycle();
+    }, [timeLeft, status, mode, focusedTask, dispatch]);
 
     const start = () => {
+        if (status === "running") return;
         setStatus("running");
     };
 
@@ -74,6 +95,7 @@ export const Timer = () => {
 
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
+            intervalRef.current = null;
         }
     };
 
@@ -82,6 +104,7 @@ export const Timer = () => {
 
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
+            intervalRef.current = null;
         }
 
         setTimeLeft(mode === "focus" ? FOCUS_DURATION : BREAK_DURATION);
@@ -104,6 +127,10 @@ export const Timer = () => {
                     <div className={styles.innerCircle}>
                         <p className={styles.label}>TIME LEFT</p>
                         <h1 className={styles.time}>{formatTime(timeLeft)}</h1>
+                        <div className={styles.label}
+                             style={{border: '1px solid lightblue', borderRadius: '10px', padding: '5px'}}
+                             onClick={skip}>SKIP
+                        </div>
                     </div>
                 </div>
             </div>

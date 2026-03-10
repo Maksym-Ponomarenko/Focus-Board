@@ -3,32 +3,24 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 export interface StatsState {
     focusesDates: string[];
     tasksDates: string[];
-
     focusesWeek: number[];
     tasksWeek: number[];
-
     focusesToday: number;
     tasksToday: number;
-
     focusesAllTime: number;
     tasksAllTime: number;
-
     lastCalculatedAt: string | null;
 }
 
 const initialState: StatsState = {
     focusesDates: [],
     tasksDates: [],
-
     focusesWeek: [0, 0, 0, 0, 0, 0, 0],
     tasksWeek: [0, 0, 0, 0, 0, 0, 0],
-
     focusesToday: 0,
     tasksToday: 0,
-
     focusesAllTime: 0,
     tasksAllTime: 0,
-
     lastCalculatedAt: null,
 };
 
@@ -49,46 +41,73 @@ const getWeekIndex = (value: string | Date): number => {
 
 const isSameDay = (a: string, b: string) => a === b;
 
+const getStartOfCurrentWeek = (): Date => {
+    const now = new Date();
+    const start = new Date(now);
+
+    const day = start.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+
+    start.setDate(start.getDate() + diff);
+    start.setHours(0, 0, 0, 0);
+
+    return start;
+};
+
+const getEndOfCurrentWeek = (): Date => {
+    const start = getStartOfCurrentWeek();
+    const end = new Date(start);
+
+    end.setDate(start.getDate() + 7);
+    end.setHours(0, 0, 0, 0);
+
+    return end;
+};
+
+const isDateInCurrentWeek = (value: string | Date): boolean => {
+    const date = new Date(value);
+    date.setHours(0, 0, 0, 0);
+
+    const start = getStartOfCurrentWeek();
+    const end = getEndOfCurrentWeek();
+
+    return date >= start && date < end;
+};
+
 const recalculateState = (state: StatsState) => {
     const today = normalizeDate(new Date());
-
     const focusesWeek = [0, 0, 0, 0, 0, 0, 0];
     const tasksWeek = [0, 0, 0, 0, 0, 0, 0];
-
     let focusesToday = 0;
     let tasksToday = 0;
-
     for (const date of state.focusesDates) {
         const normalized = normalizeDate(date);
-        const weekIndex = getWeekIndex(normalized);
-
-        focusesWeek[weekIndex] += 1;
-
+        if (isDateInCurrentWeek(normalized)) {
+            const weekIndex = getWeekIndex(normalized);
+            focusesWeek[weekIndex] += 1;
+        }
         if (isSameDay(normalized, today)) {
             focusesToday += 1;
         }
     }
-
     for (const date of state.tasksDates) {
         const normalized = normalizeDate(date);
-        const weekIndex = getWeekIndex(normalized);
 
-        tasksWeek[weekIndex] += 1;
+        if (isDateInCurrentWeek(normalized)) {
+            const weekIndex = getWeekIndex(normalized);
+            tasksWeek[weekIndex] += 1;
+        }
 
         if (isSameDay(normalized, today)) {
             tasksToday += 1;
         }
     }
-
     state.focusesWeek = focusesWeek;
     state.tasksWeek = tasksWeek;
-
     state.focusesToday = focusesToday;
     state.tasksToday = tasksToday;
-
     state.focusesAllTime = state.focusesDates.length;
     state.tasksAllTime = state.tasksDates.length;
-
     state.lastCalculatedAt = new Date().toISOString();
 };
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { tasksActions } from "@/store/taskSlice";
-import { ITask } from "@/components/TaskForm/TaskForm";
+import {useEffect, useState} from "react";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {tasksActions} from "@/store/taskSlice";
+import {ITask} from "@/components/TaskForm/TaskForm";
 
 export default function TasksHydrator() {
     const dispatch = useAppDispatch();

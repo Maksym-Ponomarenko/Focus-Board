@@ -40,7 +40,7 @@ const TaskForm = () => {
                 <TasksToggle/>
             </div>
 
-            <div style={{display: listType==='tasks'? 'flex': 'none'}} className={styles.formRow}>
+            <div style={{display: listType === 'tasks' ? 'flex' : 'none'}} className={styles.formRow}>
                 <div className={styles.titleField}>
                     <input
                         className={styles.input}

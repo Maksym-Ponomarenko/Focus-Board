@@ -5,29 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="308791ae-4b33-42c4-a5fe-57a057e82fef" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Stats/Stats.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Stats/Stats.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/statsSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/StatsUpdater.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/provider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/settings/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/stats/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/stats/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.module.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Stats/Stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Stats/Stats.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/TaskCard/TaskCard.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskCard/TaskCard.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TaskCard/TaskCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskCard/TaskCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/TaskForm/TaskForm.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskForm/TaskForm.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/TaskForm/TaskForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskForm/TaskForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TaskList/TaskList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskList/TaskList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TaskToggle/TaskToggle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskToggle/TaskToggle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TaskToggle/TaskToggle.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TaskToggle/TaskToggle.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Timer/Timer.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Timer/Timer.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Timer/Timer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Timer/Timer.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/TasksHydrator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/TasksHydrator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useGetTasks.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useSetTasks.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/statsSlise.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/taskSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/taskSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/statsSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/statsSlice.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +115,7 @@
       <workItem from="1772087451508" duration="23260000" />
       <workItem from="1772712662626" duration="21000" />
       <workItem from="1772960037707" duration="22110000" />
-      <workItem from="1773165083616" duration="2447000" />
+      <workItem from="1773165083616" duration="4433000" />
     </task>
     <servers />
   </component>
