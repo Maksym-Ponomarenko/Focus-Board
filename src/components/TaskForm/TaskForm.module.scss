@@ -1,24 +1,60 @@
+.container {
+  min-width: 290px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(220, 248, 255, 0.3), rgba(180, 235, 255, 0.18));
+  box-shadow:
+          inset 0 2px 10px rgba(255, 255, 255, 0.75),
+          0 10px 28px rgba(0, 170, 255, 0.14);
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.formRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.titleField {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.focusField {
+  width: 130px;
+  flex-shrink: 0;
+}
 
 .input {
-  width: 30%;
-  padding: 6px 10px;
-  margin-right: 6px;
-
+  width: 100%;
+  padding: 10px 12px;
   border-radius: 12px;
   border: 2px solid #7fdcff;
   outline: none;
-
   background: linear-gradient(135deg, #f4fdff, #dff8ff);
-
-  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.9), inset 0 -3px 8px rgba(0, 150, 255, 0.15), 0 4px 12px rgba(0, 150, 255, 0.15);
-
+  box-shadow:
+          inset 0 2px 5px rgba(255, 255, 255, 0.9),
+          inset 0 -3px 8px rgba(0, 150, 255, 0.15),
+          0 4px 12px rgba(0, 150, 255, 0.15);
   transition: all 0.25s ease;
 }
 
 .input:focus {
   border-color: #4cc9ff;
-
-  box-shadow: 0 0 20px rgba(0, 200, 255, 0.5), inset 0 2px 8px rgba(255, 255, 255, 1), inset 0 -4px 12px rgba(0, 150, 255, 0.3);
+  box-shadow:
+          0 0 20px rgba(0, 200, 255, 0.5),
+          inset 0 2px 8px rgba(255, 255, 255, 1),
+          inset 0 -4px 12px rgba(0, 150, 255, 0.3);
 }
 
 .input::placeholder {
@@ -27,37 +63,38 @@
 
 .button {
   position: relative;
-  min-width: 12%;
-  padding: 8px 22px;
-
+  flex-shrink: 0;
+  min-width: 130px;
+  padding: 10px 22px;
   border-radius: 14px;
   border: none;
   cursor: pointer;
-
   font-weight: 600;
   letter-spacing: 0.5px;
   color: #001b2e;
-
-  background: linear-gradient(135deg, #b8f1ff, #7fdcff, #9ad7ff, #b8f1ff
-  );
+  background: linear-gradient(135deg, #b8f1ff, #7fdcff, #9ad7ff, #b8f1ff);
   background-size: 300% 300%;
-
-  box-shadow: 0 8px 20px rgba(0, 174, 255, 0.35), inset 0 2px 6px rgba(255, 255, 255, 0.7), inset 0 -4px 10px rgba(0, 120, 200, 0.25);
-
+  box-shadow:
+          0 8px 20px rgba(0, 174, 255, 0.35),
+          inset 0 2px 6px rgba(255, 255, 255, 0.7),
+          inset 0 -4px 10px rgba(0, 120, 200, 0.25);
   transition: all 0.25s ease;
   animation: shine 6s ease infinite;
 }
 
 .button:hover {
   transform: translateY(-4px) scale(1.03);
-
-  box-shadow: 0 15px 35px rgba(0, 174, 255, 0.5), 0 0 25px rgba(0, 200, 255, 0.6), inset 0 2px 8px rgba(255, 255, 255, 0.9);
+  box-shadow:
+          0 15px 35px rgba(0, 174, 255, 0.5),
+          0 0 25px rgba(0, 200, 255, 0.6),
+          inset 0 2px 8px rgba(255, 255, 255, 0.9);
 }
 
 .button:active {
   transform: translateY(1px);
-  box-shadow: 0 5px 12px rgba(0, 174, 255, 0.35),
-  inset 0 4px 12px rgba(0, 120, 200, 0.4);
+  box-shadow:
+          0 5px 12px rgba(0, 174, 255, 0.35),
+          inset 0 4px 12px rgba(0, 120, 200, 0.4);
 }
 
 .button::after {
@@ -82,5 +119,22 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .formRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .titleField,
+  .focusField,
+  .button {
+    width: 100%;
+  }
+
+  .button {
+    min-width: unset;
   }
 }

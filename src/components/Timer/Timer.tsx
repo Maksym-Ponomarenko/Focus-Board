@@ -1,101 +1,126 @@
-"use client"
+'use client'
 
-import {useEffect, useRef, useState} from "react"
-import styles from "./Timer.module.scss"
+import {useEffect, useRef, useState} from "react";
+import styles from "./Timer.module.scss";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {tasksActions} from "@/store/taskSlice";
+import {statsActions} from "@/store/statsSlice";
 
-interface ITimerProps {
-    duration: number
-    strokeWidth?: number
-}
+type Mode = "focus" | "break";
+type Status = "idle" | "running" | "paused";
 
-export default function Timer({duration, strokeWidth = 16}: ITimerProps) {
-    const [size, setSize] = useState<number>(0)
-    const [radius, setRadius] = useState<number>(0)
+const FOCUS_DURATION = 5;
+const BREAK_DURATION = 5 * 60;
 
-    const circumference = 2 * Math.PI * radius
+const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
 
-    const [timeLeft, setTimeLeft] = useState(duration)
-    const [progress, setProgress] = useState(0)
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+};
 
-    const startTimeRef = useRef<number | null>(null)
-    const animationRef = useRef<number | null>(null)
+export const Timer = () => {
+    const [mode, setMode] = useState<Mode>("focus");
+    const [status, setStatus] = useState<Status>("idle");
+    const [timeLeft, setTimeLeft] = useState(FOCUS_DURATION);
 
-    const [width, setWidth] = useState(0)
+    const dispatch = useAppDispatch();
+    const focusedTask = useAppSelector((state) => state.tasks.focusedTask);
 
-    useEffect(() => {
-        const handleResize = () => {
-            const w = window.innerWidth
-            setWidth(w)
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-            const newSize = w > 750 ? 650 : Math.max(w - 50, 200)
-            setSize(newSize)
-            setRadius((newSize - strokeWidth) / 2)
-        }
-
-        handleResize() // важно: выставить сразу при маунте
-        window.addEventListener("resize", handleResize)
-
-        return () => window.removeEventListener("resize", handleResize)
-    }, [strokeWidth])
+    const duration = mode === "focus" ? FOCUS_DURATION : BREAK_DURATION;
 
     useEffect(() => {
-        startTimeRef.current = null
+        if (status !== "running") return;
 
-        const animate = (timestamp: number) => {
-            if (!startTimeRef.current) startTimeRef.current = timestamp
+        intervalRef.current = setInterval(() => {
+            setTimeLeft((prev) => {
+                if (prev <= 1) {
+                    return 0;
+                }
 
-            const elapsed = (timestamp - startTimeRef.current) / 1000
-            const remaining = Math.max(duration - elapsed, 0)
-
-            setTimeLeft(remaining)
-            setProgress(elapsed / duration)
-
-            if (remaining > 0) {
-                animationRef.current = requestAnimationFrame(animate)
-            } else {
-                console.log("completed")
-            }
-        }
-
-        animationRef.current = requestAnimationFrame(animate)
+                return prev - 1;
+            });
+        }, 1000);
 
         return () => {
-            if (animationRef.current) cancelAnimationFrame(animationRef.current)
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, [status]);
+
+    useEffect(() => {
+        if (timeLeft !== 0 || status !== "running") return;
+
+        if (intervalRef.current) clearInterval(intervalRef.current);
+
+        if (mode === "focus") {
+            dispatch(tasksActions.focusDecrement(focusedTask));
+            dispatch(statsActions.addFocus(new Date().toString()));
+            ()=>setMode("break");
+            ()=>setTimeLeft(BREAK_DURATION);
+        } else {
+            ()=>setMode("focus");
+            ()=>setTimeLeft(FOCUS_DURATION);
         }
-    }, [duration])
+    }, [timeLeft, status, mode, dispatch, focusedTask]);
 
-    const strokeDashoffset = circumference * progress
+    const start = () => {
+        setStatus("running");
+    };
 
-    const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60)
-        const seconds = Math.floor(time % 60)
-        return `${minutes}:${seconds.toString().padStart(2, "0")}`
-    }
+    const pause = () => {
+        setStatus("paused");
+
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+    };
+
+    const reset = () => {
+        setStatus("idle");
+
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        setTimeLeft(mode === "focus" ? FOCUS_DURATION : BREAK_DURATION);
+    };
+
+    const progress = (timeLeft / duration) * 100;
 
     return (
-        <div className={styles.timer} style={{zIndex: -1}}>
-            <svg width={size} height={size} className={styles.svg} style={{zIndex: -1}}>
-                <circle
-                    className={styles.background}
-                    strokeWidth={strokeWidth}
-                    r={radius}
-                    cx={size / 2}
-                    cy={size / 2}
-                />
-                <circle
-                    className={styles.progress}
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    r={radius}
-                    cx={size / 2}
-                    cy={size / 2}
-                />
-            </svg>
+        <div className={styles.timerCard}>
+            <div className={styles.circleWrapper}>
+                <div
+                    className={styles.circle}
+                    style={{
+                        background: `conic-gradient(
+                            #1ac0ff ${progress}%,
+                            rgba(255,255,255,0.05) ${progress}%
+                        )`,
+                    }}
+                >
+                    <div className={styles.innerCircle}>
+                        <p className={styles.label}>TIME LEFT</p>
+                        <h1 className={styles.time}>{formatTime(timeLeft)}</h1>
+                    </div>
+                </div>
+            </div>
 
-            <div className={styles.time}>
-                {formatTime(timeLeft)}
+            <div className={styles.buttons}>
+                <button onClick={start} className={styles.start}>
+                    Start
+                </button>
+
+                <button onClick={pause} className={styles.pause}>
+                    Pause
+                </button>
+
+                <button onClick={reset} className={styles.reset}>
+                    Reset
+                </button>
             </div>
         </div>
-    )
-}
+    );
+};

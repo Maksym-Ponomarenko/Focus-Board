@@ -7,12 +7,14 @@ export interface TasksState {
     tasks: ITask[];
     completedTasks: ITask[];
     listType: ListType;
+    focusedTask: ITask;
 }
 
 const initialState: TasksState = {
     tasks: [],
     completedTasks: [],
     listType: 'tasks',
+    focusedTask: {name: '', id: '', focuses: '', leftFocuses: 0, status: 'null', date: ''},
 };
 
 const taskSlice = createSlice({
@@ -28,6 +30,7 @@ const taskSlice = createSlice({
         },
         removeTask(state, action: PayloadAction<ITask>) {
             state.tasks = state.tasks.filter((task) => task.id !== action.payload.id);
+            state.completedTasks = state.completedTasks.filter((task) => task.id !== action.payload.id);
         },
         completeTask(state, action: PayloadAction<ITask>) {
             state.completedTasks.push(action.payload);
@@ -35,7 +38,13 @@ const taskSlice = createSlice({
         },
         toggleListType(state, action: PayloadAction<ListType>) {
             state.listType = action.payload;
-        }
+        },
+        setFocusedTask(state, action: PayloadAction<ITask>) {
+            state.focusedTask = action.payload;
+        },
+        focusDecrement(state, action: PayloadAction<ITask>) {
+            state.tasks = state.tasks.map((t) =>
+                t.id === action.payload.id ? { ...t, leftFocuses: t.leftFocuses<=0?0: t.leftFocuses-1 } : t);}
     },
 });
 

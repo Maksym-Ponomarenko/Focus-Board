@@ -10,15 +10,15 @@ interface ITaskListProps {
 }
 
 const TaskList: FC<ITaskListProps> = ({limit}) => {
-    const listType = useAppSelector((state)=>state.listType)
-    const tasks = useAppSelector((state) => state[listType]);
+    const listType = useAppSelector((state)=>state.tasks.listType)
+    const tasks = useAppSelector((state) => state.tasks[listType]);
 
     const sliced = limit ? tasks.slice(0, limit) : tasks;
 
     return (
         <div>
             {sliced.map((task: ITask) => (
-                <TaskCard task={task} key={task.id}/>
+                <TaskCard task={task} listType={listType} key={task.id}/>
             ))}
         </div>
     );

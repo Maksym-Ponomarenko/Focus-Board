@@ -5,16 +5,23 @@ import tickIcon from "../../assets/icons/tick.png"
 import timerIcon from "../../assets/icons/timer.png"
 import Image from "next/image";
 import {useAppDispatch} from "@/store";
-import {tasksActions} from "@/store/taskSlice";
+import {ListType, tasksActions} from "@/store/taskSlice";
+import {statsActions} from "@/store/statsSlice";
 
 interface TaskCardProps {
-    task: ITask
+    task: ITask,
+    listType: ListType
 }
 
-const TaskCard: FC<TaskCardProps> = ({task}) => {
+const TaskCard: FC<TaskCardProps> = ({task, listType}) => {
 
     const dispatch = useAppDispatch();
-    const {removeTask, completeTask} = tasksActions
+    const {removeTask, completeTask, setFocusedTask} = tasksActions
+    const { addTask} = statsActions
+    const complete = () =>{
+        dispatch(completeTask(task))
+        dispatch(addTask(new Date().toISOString()))
+    }
 
 
     return (
@@ -26,10 +33,10 @@ const TaskCard: FC<TaskCardProps> = ({task}) => {
             </div>
             <div className={styles.card__options}>
                 <button className={styles.options__btns} onClick={() => dispatch(removeTask(task))}>X</button>
-                <button className={styles.options__btns} onClick={() => dispatch(completeTask(task))}>
+                <button style={{display: listType==='tasks'? 'block': 'none'}} className={styles.options__btns} onClick={() => complete() }>
                     <Image src={tickIcon.src} alt="tick" width="14" height="14"/>
                 </button>
-                <button className={styles.options__btns}>
+                <button style={{display: listType==='tasks'? 'block': 'none'}} className={styles.options__btns} onClick={() => dispatch(setFocusedTask(task))}>
                     <Image src={timerIcon.src} alt="timer" width="16" height="16"/>
                 </button>
             </div>

@@ -4,7 +4,7 @@ import styles from "./TaskToggle.module.scss";
 
 export const TasksToggle = () => {
     const dispatch = useAppDispatch();
-    const listType = useAppSelector((state) => state.listType);
+    const listType = useAppSelector((state) => state.tasks.listType);
 
     return (
         <div className={styles.toggle}>
@@ -15,7 +15,7 @@ export const TasksToggle = () => {
                 }`}
                 onClick={() => dispatch(tasksActions.toggleListType("tasks"))}
             >
-                Задачи
+                Tasks
             </button>
 
             <button
@@ -25,7 +25,7 @@ export const TasksToggle = () => {
                 }`}
                 onClick={() => dispatch(tasksActions.toggleListType("completedTasks"))}
             >
-                Выполненные
+                Completed
             </button>
         </div>
     );

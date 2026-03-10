@@ -1,9 +1,12 @@
 import React from 'react';
+import {FocusStats, StatsData, TaskStats} from "@/components/Stats/Stats";
 
 const Page = () => {
     return (
         <div>
-            stats
+            <StatsData/>
+            <TaskStats/>
+            <FocusStats/>
         </div>
     );
 };

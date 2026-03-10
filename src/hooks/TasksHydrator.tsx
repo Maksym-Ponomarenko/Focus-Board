@@ -8,8 +8,8 @@ import { ITask } from "@/components/TaskForm/TaskForm";
 export default function TasksHydrator() {
     const dispatch = useAppDispatch();
 
-    const tasks = useAppSelector((state) => state.tasks);
-    const completedTasks = useAppSelector((state) => state.completedTasks);
+    const tasks = useAppSelector((state) => state.tasks.tasks);
+    const completedTasks = useAppSelector((state) => state.tasks.completedTasks);
 
     const [hydrated, setHydrated] = useState(false);
 
@@ -24,6 +24,8 @@ export default function TasksHydrator() {
             dispatch(tasksActions.setAllTasks({
                 tasks: parsedTasks,
                 completedTasks: parsedCompleted,
+                listType: "tasks",
+                focusedTask: {name: '', id: '', focuses: '', leftFocuses: 0, status: 'null', date: ''}
             }));
         } catch (e) {
             console.error("localStorage error", e);
